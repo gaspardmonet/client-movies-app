@@ -1,12 +1,20 @@
-import * as React from 'react';
-import Component from 'react';
-import Axios from 'axios';
+import * as React from "react";
+import Component from "react";
+// import Axios from 'axios';
+const axios = require("axios");
 
 class SearchMovies extends React.Component {
-  state = {
-    genres: [],
-    runtime: '',
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      genres: [],
+      runtime: "",
+      dataFromServer: [],
+    };
+
+    this.formRef = React.createRef();
+  }
+  //for getting an array of genre
   inputCheckBoxHandler(event) {
     let genres = [...this.state.genres];
     if (event.target.checked) {
@@ -17,89 +25,112 @@ class SearchMovies extends React.Component {
       this.setState({ genres: newArr });
     }
   }
+  //
   changeDuration(event) {
     this.setState({ [event.target.name]: event.target.value });
   }
+  //when submitting a form send params to path /searchmovies with get request
   searchMovieHandler(event) {
     event.preventDefault();
     const { genres, runtime } = this.state;
-    console.log(`genre and runtime`, genres, runtime)
-    Axios({
-      url: '/searchmovies',
-      method: 'POST',
-      data: {
-        runtime,
-        genres,
-      },
-    })
-      .then((response) => {
-        console.log(response.data);
+    console.log(`genre and runtime`, genres, runtime);
+    axios //request with axios api
+      .get("/searchmovies", {
+        params: {
+          runtime: runtime,
+          genres: genres,
+        },
       })
+      .then((response) => {
+        //receing data from server
+        console.log(response.data);
+        this.setState({
+          dataFromServer: response.data, //fetch all the searched movies from backend and maintain its state
+          genres: [],
+          runtime: "",
+        });
+        //resetting a checkbox for unmark
+        let currentForm = this.formRef.current;
+        let checkBoxes = currentForm.querySelectorAll('input[type="checkbox"]');
+        for (let i = 0; i < checkBoxes.length; i++) {
+          checkBoxes[i].checked = false;
+        }
+      })
+      //error handling if data not received from api
       .catch((err) => {
-        console.error(err);
+        console.error(`Error occured while getting movies from database`, err);
       });
-
   }
   render() {
+    //to place predifined genre , genre has been defined
     var genres = [
-      'Comedy',
-      'Fantasy',
-      'Crime',
-      'Drama',
-      'Music',
-      'Adventure',
-      'History',
-      'Thriller',
-      'Animation',
-      'Family',
-      'Mystery',
-      'Biography',
-      'Action',
-      'Film-Noir',
-      'Romance',
-      'Sci-Fi',
-      'War',
-      'Western',
-      'Horror',
-      'Musical',
-      'Sport',
+      "Comedy",
+      "Fantasy",
+      "Crime",
+      "Drama",
+      "Music",
+      "Adventure",
+      "History",
+      "Thriller",
+      "Animation",
+      "Family",
+      "Mystery",
+      "Biography",
+      "Action",
+      "Film-Noir",
+      "Romance",
+      "Sci-Fi",
+      "War",
+      "Western",
+      "Horror",
+      "Musical",
+      "Sport",
     ];
+    //genre select as an array with help of checbox
     const checkBoxes = genres.map((elem) => {
       return (
         <label>
           {elem}
           <input
-            type='checkbox'
+            type="checkbox"
             name={elem}
             onChange={this.inputCheckBoxHandler.bind(this)}
           />
         </label>
       );
     });
+
+    var listMovies = this.state.dataFromServer.map((value, index) => (
+      <li key={index}>{value}</li>
+    ));
     return (
       <div>
-        <form onSubmit={this.searchMovieHandler.bind(this)}>
+        <form ref={this.formRef} onSubmit={this.searchMovieHandler.bind(this)}>
           <h3> Please fill out the requirements for searching a movie</h3>
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            <label>Genre</label>
             {checkBoxes}
           </div>
           <br></br>
           <label>Runtime</label>
           <input
-            type='number'
-            name='runtime'
-            placeholder='22'
+            type="number"
+            name="runtime"
+            value={this.state.runtime}
+            placeholder="22"
             onChange={this.changeDuration.bind(this)}
           />
           <br />
           <br />
 
-          <input type='submit' value='Search' />
+          <input type="submit" value="Search" />
         </form>
+        <div>
+          <ul>{listMovies}</ul>
+        </div>
       </div>
     );
-  };
+  }
 }
-
 
 export default SearchMovies;
