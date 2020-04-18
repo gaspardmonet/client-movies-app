@@ -5,7 +5,7 @@ import Axios from 'axios';
 class SearchMovies extends React.Component {
   state = {
     genres: [],
-    duration: 0,
+    runtime: '',
   };
   inputCheckBoxHandler(event) {
     let genres = [...this.state.genres];
@@ -22,25 +22,23 @@ class SearchMovies extends React.Component {
   }
   searchMovieHandler(event) {
     event.preventDefault();
-    const { genres, duration } = this.state;
-    if (genres.length < 1) {
-      alert('Genres should be greter than 1');
-    } else {
-      Axios({
-        url: '/searchmovies',
-        method: 'GET',
-        data: {
-          duration,
-          genres,
-        },
+    const { genres, runtime } = this.state;
+    console.log(`genre and runtime`, genres, runtime)
+    Axios({
+      url: '/searchmovies',
+      method: 'POST',
+      data: {
+        runtime,
+        genres,
+      },
+    })
+      .then((response) => {
+        console.log(response.data);
       })
-        .then((response) => {
-          console.log(response.data);
-        })
-        .catch((err) => {
-          console.error(err);
-        });
-    }
+      .catch((err) => {
+        console.error(err);
+      });
+
   }
   render() {
     var genres = [
@@ -89,16 +87,19 @@ class SearchMovies extends React.Component {
           <label>Runtime</label>
           <input
             type='number'
-            name='duration'
+            name='runtime'
             placeholder='22'
             onChange={this.changeDuration.bind(this)}
-            required
           />
+          <br />
+          <br />
+
           <input type='submit' value='Search' />
         </form>
       </div>
     );
-  }
+  };
 }
+
 
 export default SearchMovies;

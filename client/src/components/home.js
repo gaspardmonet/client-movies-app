@@ -15,9 +15,9 @@ class Home extends React.Component {
                         <li>
                             <Link to="/addmovies"> Add Movies </Link> <br />
                         </li>
-                        {/* <li>
+                        <li>
                             <Link to="/searchmovies"> Search Movies </Link> <br />
-                        </li> */}
+                        </li>
                     </ul>
                 </div>
 

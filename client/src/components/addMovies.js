@@ -15,13 +15,11 @@ class AddMovies extends React.Component {
       plot: '',
       posterURL: '',
     };
-    // this.formHandle = this.formHandle.bind(this);
     // this.onChangeformHandle = this.onChangeformHandle.bind(this);
     this.inputHandler = this.inputHandler.bind(this);
   }
 
   formHandle(event) {
-    event.preventDefault();
     const {
       genres,
       title,
@@ -34,7 +32,7 @@ class AddMovies extends React.Component {
     } = this.state;
     const url = '/addmovies';
     if (genres.length < 1) {
-      alert('Genre should be greater than 1');
+      alert('Genre should be greater than 1  ');
     } else {
       //console.log(this.state);
       axios({
@@ -58,14 +56,14 @@ class AddMovies extends React.Component {
           console.log(err);
         });
     }
+
+
   }
 
   inputHandler(event) {
     console.log(event.target.value);
     // var target = event.target;
     this.setState({ [event.target.name]: event.target.value });
-    // else
-    //     prompt(`please insert number here`)
   }
   inputCheckBoxHandler(event) {
     let genres = [...this.state.genres];
@@ -78,29 +76,7 @@ class AddMovies extends React.Component {
     }
   }
   render() {
-    // var genres = [
-    //     "Comedy",
-    //     "Fantasy",
-    //     "Crime",
-    //     "Drama",
-    //     "Music",
-    //     "Adventure",
-    //     "History",
-    //     "Thriller",
-    //     "Animation",
-    //     "Family",
-    //     "Mystery",
-    //     "Biography",
-    //     "Action",
-    //     "Film-Noir",
-    //     "Romance",
-    //     "Sci-Fi",
-    //     "War",
-    //     "Western",
-    //     "Horror",
-    //     "Musical",
-    //     "Sport"
-    // ];
+
     return (
       <div>
         <h3> Please fill out the requirements for adding a movie</h3>
@@ -385,7 +361,7 @@ class AddMovies extends React.Component {
 
           <label>
             PosterURL
-            <input type='text' name='posterURL' onChange={this.inputHandler} />
+            <input type='url' name='posterURL' onChange={this.inputHandler} />
             <br />
           </label>
 
