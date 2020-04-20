@@ -13,9 +13,9 @@ class AddMovies extends React.Component {
       year: "",
       runtime: "",
       director: "",
-      actor: "",
+      actors: "",
       plot: "",
-      posterURL: "",
+      posterUrl: "",
     };
     this.formRef = React.createRef();
   }
@@ -28,9 +28,9 @@ class AddMovies extends React.Component {
       year,
       runtime,
       director,
-      actor,
+      actors,
       plot,
-      posterURL,
+      posterUrl,
     } = this.state;
     const url = "/addmovies";
     if (genres.length < 1) {
@@ -44,9 +44,9 @@ class AddMovies extends React.Component {
           year,
           runtime,
           director,
-          actor,
+          actors,
           plot,
-          posterURL,
+          posterUrl,
         })
         .then((response) => {
           console.log(response.data);
@@ -56,11 +56,11 @@ class AddMovies extends React.Component {
             year: "",
             runtime: "",
             director: "",
-            actor: "",
+            actors: "",
             plot: "",
-            posterURL: "",
+            posterUrl: "",
           });
-          alert(`Movie has been successfully added`);
+          alert(response.data);
           //resetting a checkbox for unmark
           let currentForm = this.formRef.current;
           let checkBoxes = currentForm.querySelectorAll(
@@ -193,8 +193,8 @@ class AddMovies extends React.Component {
             Actors
             <input
               type="text"
-              name="actor"
-              value={this.state.actor}
+              name="actors"
+              value={this.state.actors}
               onChange={this.inputHandler.bind(this)}
             />
             <br />
@@ -212,11 +212,11 @@ class AddMovies extends React.Component {
           </label>
 
           <label>
-            PosterURL
+            PosterUrl
             <input
               type="url"
-              name="posterURL"
-              value={this.state.posterURL}
+              name="posterUrl"
+              value={this.state.posterUrl}
               onChange={this.inputHandler.bind(this)}
             />
             <br />

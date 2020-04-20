@@ -26,7 +26,7 @@ module.exports = {
       //This will search exact match condition i.e genre > 2 and runtime between runtime-10 and runtime+10
       searchedMovie.push(
         jsonQuery(
-          `movies[**][*genres = ${genre} & (runtime > ${runtime}-10 & runtime < 10) ].title`,
+          `movies[**][*genres = ${genre} & (runtime > ${runtime}-10 & runtime < 10) ]`,
           {
             data: data,
           }
@@ -37,7 +37,7 @@ module.exports = {
       result.map((a) => {
         searchedMovie.push(
           jsonQuery(
-            `movies[**][*genres = ${a} & (runtime > ${runtime}-10 & runtime < 10) ].title`,
+            `movies[**][*genres = ${a} & (runtime > ${runtime}-10 & runtime < 10) ]`,
             {
               data: data,
             }
@@ -49,7 +49,7 @@ module.exports = {
       genre.map((a) => {
         searchedMovie.push(
           jsonQuery(
-            `movies[**][*genres = ${a} & (runtime > ${runtime}-10 & runtime < 10) ].title`,
+            `movies[**][*genres = ${a} & (runtime > ${runtime}-10 & runtime < 10) ]`,
             {
               data: data,
             }
@@ -64,7 +64,7 @@ module.exports = {
       genre.map((a) => {
         searchedMovie.push(
           jsonQuery(
-            `movies[**][*genres = ${a} & (runtime > ${runtime}-10 & runtime < 10) ].title`,
+            `movies[**][*genres = ${a} & (runtime > ${runtime}-10 & runtime < 10) ]`,
             {
               data: data,
             }
@@ -78,7 +78,7 @@ module.exports = {
       //   console.log(`Running for lenght === 1`);
       searchedMovie.push(
         jsonQuery(
-          `movies[**][*genres = ${genre} & (runtime > ${runtime}-10 & runtime < 10) ].title`,
+          `movies[**][*genres = ${genre} & (runtime > ${runtime}-10 & runtime < 10) ]`,
           {
             data: data,
           }
@@ -97,7 +97,7 @@ module.exports = {
     if (genre.length > 2) {
       //search exact movie genre provided
       searchedMovie.push(
-        jsonQuery(`movies[**][*genres = ${genre} ].title`, {
+        jsonQuery(`movies[**][*genres = ${genre} ]`, {
           data: data,
         }).value
       );
@@ -105,7 +105,7 @@ module.exports = {
       var result = pairwise(genre);
       result.map((a) => {
         searchedMovie.push(
-          jsonQuery(`movies[**][*genres = ${a} ].title`, {
+          jsonQuery(`movies[**][*genres = ${a} ]`, {
             data: data,
           }).value
         );
@@ -113,7 +113,7 @@ module.exports = {
       //search for single genre filter
       genre.map((a) => {
         searchedMovie.push(
-          jsonQuery(`movies[**][*genres = ${a} ].title`, {
+          jsonQuery(`movies[**][*genres = ${a} ]`, {
             data: data,
           }).value
         );
@@ -124,7 +124,7 @@ module.exports = {
       //   console.log(`Running for lenght === 2`);
       genre.map((a) => {
         searchedMovie.push(
-          jsonQuery(`movies[**][*genres = ${a} ].title`, {
+          jsonQuery(`movies[**][*genres = ${a} ]`, {
             data: data,
           }).value
         );
@@ -134,7 +134,7 @@ module.exports = {
       //search for single genre provided
       //   console.log(`Running for lenght === 1`);
       searchedMovie.push(
-        jsonQuery(`movies[**][*genres = ${genre} ].title`, {
+        jsonQuery(`movies[**][*genres = ${genre} ]`, {
           data: data,
         }).value
       );
@@ -150,11 +150,11 @@ module.exports = {
     const duration = (d) =>
       d.runtime > Runtime - 10 && d.runtime < Runtime + 10;
     const Duration = movies.filter(duration);
-    return [Duration[Math.floor(Math.random() * Duration.length)].title];
+    return [Duration[Math.floor(Math.random() * Duration.length)]];
   },
   //no params provided return a single random
   noParamsSearchAlgo: function noParamsSearchAlgo() {
     console.log(`noParamsSearchAlgo`);
-    return [movies[Math.floor(Math.random() * movies.length)].title];
+    return [movies[Math.floor(Math.random() * movies.length)]];
   },
 };

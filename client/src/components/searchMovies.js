@@ -101,13 +101,25 @@ class SearchMovies extends React.Component {
     });
 
     var listMovies =
-      typeof this.state.dataFromServer === "string" ? (
-        <li>{this.state.dataFromServer}</li>
-      ) : (
-        this.state.dataFromServer.map((value, index) => (
-          <li key={index}>{value}</li>
-        ))
-      );
+      // typeof this.state.dataFromServer === "string" ? (
+      //   <li>{this.state.dataFromServer}</li>
+      // ) : (
+      this.state.dataFromServer.map((value, index) => (
+        <li key={index}>
+          {" "}
+          {index}{" "}
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            <h6>id is {value.id}</h6>
+            <h6>title {value.title}</h6>
+            <h6> year {value.year}</h6>
+            <h6> runtime {value.runtime}</h6>
+            <h6> genres are {value.genres}</h6>
+            <h6>Actors are {value.actors}</h6>
+            <h6>Plot {value.plot}</h6>
+            <h6>PosterURL {value.posterUrl}</h6>
+          </div>
+        </li>
+      ));
     return (
       <div>
         <form ref={this.formRef} onSubmit={this.searchMovieHandler.bind(this)}>
