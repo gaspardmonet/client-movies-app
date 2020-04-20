@@ -34,16 +34,16 @@ class SearchMovies extends React.Component {
     event.preventDefault();
     const { genres, runtime } = this.state;
     console.log(`genre and runtime`, genres, runtime);
-    axios //request with axios api
+    axios
       .get("/searchmovies", {
         params: {
-          runtime: runtime,
           genres: genres,
+          runtime: runtime,
         },
       })
       .then((response) => {
         //receing data from server
-        console.log(response.data);
+        console.log([...response.data]);
         this.setState({
           dataFromServer: response.data, //fetch all the searched movies from backend and maintain its state
           genres: [],
@@ -100,9 +100,14 @@ class SearchMovies extends React.Component {
       );
     });
 
-    var listMovies = this.state.dataFromServer.map((value, index) => (
-      <li key={index}>{value}</li>
-    ));
+    var listMovies =
+      typeof this.state.dataFromServer === "string" ? (
+        <li>{this.state.dataFromServer}</li>
+      ) : (
+        this.state.dataFromServer.map((value, index) => (
+          <li key={index}>{value}</li>
+        ))
+      );
     return (
       <div>
         <form ref={this.formRef} onSubmit={this.searchMovieHandler.bind(this)}>

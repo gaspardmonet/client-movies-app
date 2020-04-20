@@ -17,9 +17,11 @@ class AddMovies extends React.Component {
       plot: "",
       posterURL: "",
     };
+    this.formRef = React.createRef();
   }
   //on submitting form this function calls and post all properies of a new movie to backend express api
   addMovieHandler(event) {
+    event.preventDefault();
     const {
       genres,
       title,
@@ -35,10 +37,8 @@ class AddMovies extends React.Component {
       alert("Genre should be greater than 1  ");
     } else {
       //posting data to express api with axios on path /addmovies
-      axios({
-        url: url,
-        method: "POST",
-        data: {
+      axios
+        .post(url, {
           genres,
           title,
           year,
@@ -47,10 +47,20 @@ class AddMovies extends React.Component {
           actor,
           plot,
           posterURL,
-        },
-      })
+        })
         .then((response) => {
           console.log(response.data);
+          this.setState({
+            genres: [],
+            title: "",
+            year: "",
+            runtime: "",
+            director: "",
+            actor: "",
+            plot: "",
+            posterURL: "",
+          });
+          alert(`Movie has been successfully added`);
           //resetting a checkbox for unmark
           let currentForm = this.formRef.current;
           let checkBoxes = currentForm.querySelectorAll(
@@ -124,7 +134,7 @@ class AddMovies extends React.Component {
     return (
       <div>
         <h3> Please fill out the requirements for adding a movie</h3>
-        <form onSubmit={this.addMovieHandler.bind(this)}>
+        <form onSubmit={this.addMovieHandler.bind(this)} ref={this.formRef}>
           <div style={{ display: "flex", flexDirection: "column" }}>
             <label>Genre</label>
             {checkBoxes}
@@ -135,6 +145,7 @@ class AddMovies extends React.Component {
               type="textarea"
               name="title"
               maxLength="255"
+              value={this.state.title}
               onChange={this.inputHandler.bind(this)}
               required
             />
@@ -146,8 +157,9 @@ class AddMovies extends React.Component {
               type="number"
               name="year"
               placeholder="1920"
+              value={this.state.year}
               onChange={this.inputHandler.bind(this)}
-              reqiured
+              required
             />
             <br />
           </label>
@@ -158,6 +170,7 @@ class AddMovies extends React.Component {
               type="number"
               name="runtime"
               placeholder="22"
+              value={this.state.runtime}
               onChange={this.inputHandler.bind(this)}
               required
             />
@@ -169,8 +182,9 @@ class AddMovies extends React.Component {
               type="text"
               maxLength="255"
               name="director"
+              value={this.state.director}
               onChange={this.inputHandler.bind(this)}
-              reqiured
+              required
             />
             <br />
           </label>
@@ -180,6 +194,7 @@ class AddMovies extends React.Component {
             <input
               type="text"
               name="actor"
+              value={this.state.actor}
               onChange={this.inputHandler.bind(this)}
             />
             <br />
@@ -190,6 +205,7 @@ class AddMovies extends React.Component {
             <input
               type="text"
               name="plot"
+              value={this.state.value}
               onChange={this.inputHandler.bind(this)}
             />
             <br />
@@ -200,6 +216,7 @@ class AddMovies extends React.Component {
             <input
               type="url"
               name="posterURL"
+              value={this.state.posterURL}
               onChange={this.inputHandler.bind(this)}
             />
             <br />
